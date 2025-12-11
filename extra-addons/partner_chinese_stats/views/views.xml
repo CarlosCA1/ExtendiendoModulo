@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Formulario -->
+    <record model="ir.ui.view" id="partner_chinese_stats_form">
+        <field name="name">partner.chinese.stats.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Signo Chino">
+                    <group>
+                        <field name="f_nac"/>
+                        <field name="edad"/>
+                        <field name="signo_chino"/>
+                    </group>
+                </page>
+                <page string="Membresía">
+                    <group>
+                        <field name="codigo_socio"/>
+                        <field name="nivel_fidelidad"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List -->
+    <record model="ir.ui.view" id="partner_chinese_stats_list">
+        <field name="name">partner.chinese.stats.list</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="f_nac"/>
+                <field name="edad"/>
+                <field name="signo_chino"/>
+                <field name="codigo_socio"/>
+                <field name="nivel_fidelidad"
+                       decoration-info="nivel_fidelidad in ('premium','gold')"/> <!-- decoration-info es una directiva de Odoo que aplica un estilo visual (por defecto azul) a la fila o al campo cuando la condición se cumple. -->
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban -->
+    <record model="ir.ui.view" id="partner_chinese_stats_kanban">
+        <field name="name">partner.chinese.stats.kanban</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                 <!-- Muestra el código de socio en azul y negrita,
+                 pero solo si el campo codigo_socio tiene un valor -->
+                <div t-if="record.codigo_socio.raw_value"
+                     class="fw-bold text-primary">
+                    <field name="codigo_socio"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[contains(@class,'mb-1')]" position="inside">
+                <field name="signo_chino"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
